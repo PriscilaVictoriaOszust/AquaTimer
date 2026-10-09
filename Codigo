@@ -1,1 +1,41 @@
+'''
+AquaTimer Oszust Priscila Victoria. 7mo 6ta.
+'''
 
+import machine
+import neopixel
+import utime
+
+# Set up the neopixels
+numpixels = 12
+pixelpin = machine.Pin(5)
+neopixels = neopixel.NeoPixel(pixelpin, numpixels)
+
+# Set up the timer
+minutes = 16
+seconds = minutes * 60
+
+
+print("Starting timer")
+for i in range(numpixels):
+    neopixels[i] = (0, 255, 0)  # Set all neopixels to green
+neopixels.write()
+
+while seconds > 0:
+    # Update the neopixels
+    remaining = seconds / (minutes * 60)
+    num_lit = int(numpixels * remaining)
+    for i in range(numpixels):
+        if i < num_lit:
+            neopixels[i] = (0, 255, 0)  # Set lit neopixels to green
+        else:
+            neopixels[i] = (0, 0, 0)  # Set unlit neopixels to black
+    neopixels.write()
+    # Decrement the timer
+    seconds -= 1
+    utime.sleep(1)
+    
+print("Timer finished")
+for i in range(numpixels):
+    neopixels[i] = (255, 0, 0)  # Set all neopixels to red
+neopixels.write()
